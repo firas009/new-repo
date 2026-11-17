@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}New request | E-Baladiya{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">{% endblock %}
+{% block content %}
+<section class="app-shell"><div class="container">
+  <div class="stepper"><div class="step current"><span class="step-number">1</span> Service</div><div class="step"><span class="step-number">2</span> Documents</div><div class="step"><span class="step-number">3</span> Verification</div><div class="step"><span class="step-number">4</span> Review</div><div class="step"><span class="step-number">5</span> Complete</div></div>
+  <div class="form-panel"><p class="section-kicker">New request</p><h1>What do you need today?</h1><p class="muted mb-4">Choose a municipal service to see its requirements and upload its documents.</p><div class="row g-3">{% for item in services %}<div class="col-md-6 col-lg-4"><a class="catalogue-card" href="{% url 'document_upload_service' item.slug %}"><span class="service-meta">{{ item.category }}</span><h2>{{ item.name }}</h2><p>{{ item.description }}</p><strong>Choose service ↗</strong></a></div>{% endfor %}</div></div>
+</div></section>
+{% endblock %}

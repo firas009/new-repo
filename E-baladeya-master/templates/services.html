@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Municipal services | E-Baladiya{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">{% endblock %}
+{% block content %}
+<section class="app-shell catalogue-page">
+  <div class="container">
+    <div class="page-head catalogue-head">
+      <div><p class="section-kicker">Municipality of Tunis · Digital directory</p><h1>Find a municipal service.</h1><p class="muted">Explore the procedures handled by Tunisian municipalities and start with clear requirements.</p></div>
+      <div class="catalogue-count"><strong id="service-count">{{ services|length }}</strong><span>services available</span></div>
+    </div>
+    <div class="catalogue-tools">
+      <label class="catalogue-search" for="service-search"><span aria-hidden="true">⌕</span><input id="service-search" type="search" placeholder="Search for a service..." autocomplete="off"><kbd>/</kbd></label>
+      <div class="filter-bar" role="group" aria-label="Filter services by category">
+        <button class="filter-pill active" type="button" data-filter="all">All services</button>
+        {% for category in categories %}<button class="filter-pill" type="button" data-filter="{{ category.slug }}">{{ category.name }}</button>{% endfor %}
+      </div>
+    </div>
+    <div class="catalogue-sections">
+      {% for category in categories %}
+      <section class="catalogue-group" data-group="{{ category.slug }}">
+        <div class="catalogue-group-head"><div><span class="group-index">0{{ forloop.counter }}</span><h2>{{ category.name }}</h2></div><span>{{ category.services|length }} services</span></div>
+        <div class="row g-3">
+          {% for service in category.services %}<div class="col-md-6 col-lg-4"><a class="catalogue-card" data-service-card data-search="{{ service.name|lower }} {{ service.category|lower }}" href="{% url 'service_detail_slug' service.slug %}"><span class="service-meta">{{ service.category }}</span><h3>{{ service.name }}</h3><p>{{ service.description }}</p><div class="service-foot"><span>{{ service.required_documents_count }} documents</span><strong>{{ service.processing_type }}</strong></div><span class="card-link">View requirements <b>↗</b></span></a></div>{% endfor %}
+        </div>
+      </section>
+      {% endfor %}
+    </div>
+    <div class="empty-results" id="empty-results" hidden><strong>No services found.</strong><p>Try another search term or choose a different category.</p></div>
+  </div>
+</section>
+{% endblock %}

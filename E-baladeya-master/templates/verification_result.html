@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Verification | E-Baladiya{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">{% endblock %}
+{% block content %}
+<section class="app-shell"><div class="container">
+  <div class="stepper"><div class="step done"><span class="step-number">✓</span> Service</div><div class="step done"><span class="step-number">✓</span> Documents</div><div class="step current"><span class="step-number">3</span> Verification</div><div class="step"><span class="step-number">4</span> Review</div><div class="step"><span class="step-number">5</span> Complete</div></div>
+  {% if service %}<div class="page-head"><div><p class="section-kicker">{{ service.category }}</p><h1>Check your {{ service.name }} request.</h1><p class="muted">Automatic verification has started. We will check your documents before the municipal review.</p></div><span class="status pending">● Verification in progress</span></div><div class="verification-box">{% for document in service.required_documents %}<div class="verify-line"><span>{{ document.name }}</span><strong class="verify-ok">Being checked automatically</strong></div>{% endfor %}<div class="verify-line"><span>Required documents</span><strong>{{ service.required_documents|length }} submitted</strong></div><a class="btn btn-dark w-100 mt-4" href="{% url 'application_review_service' service.slug %}">Continue to review ↗</a></div>{% else %}<div class="form-panel"><p class="section-kicker">Verification</p><h1>Select a service first.</h1><p class="muted">Start from a service page or choose a service before uploading documents.</p><a class="btn btn-dark" href="{% url 'application_create_generic' %}">Choose a service ↗</a></div>{% endif %}
+</div></section>
+{% endblock %}

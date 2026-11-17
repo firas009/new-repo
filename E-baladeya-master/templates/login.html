@@ -1,0 +1,76 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Log in | E-Baladiya
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card">
+
+        <p class="section-kicker">Welcome back</p>
+
+        <h1>Log in to E-Baladiya.</h1>
+
+        <p class="muted mb-4">
+            Continue your requests and access your official documents.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}"
+                     role="status">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <label class="form-label"
+                   for="{{ form.username.id_for_label }}">
+                Email address
+            </label>
+
+            {{ form.username }}
+            {{ form.username.errors }}
+
+            <label class="form-label mt-3"
+                   for="{{ form.password.id_for_label }}">
+                Password
+            </label>
+
+            {{ form.password }}
+            {{ form.password.errors }}
+
+            <button class="btn btn-dark w-100 mt-4"
+                    type="submit">
+                Log in ↗
+            </button>
+
+        </form>
+
+        <p class="muted text-center mt-4 mb-0">
+            New here?
+            <a class="text-link" href="{% url 'register' %}">
+                Create an account
+            </a>
+        </p>
+
+    </div>
+</section>
+{% endblock %}

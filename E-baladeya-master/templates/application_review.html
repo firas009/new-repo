@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Review request | E-Baladiya{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">{% endblock %}
+{% block content %}
+<section class="app-shell"><div class="container">
+  <div class="stepper"><div class="step done"><span class="step-number">✓</span> Service</div><div class="step done"><span class="step-number">✓</span> Documents</div><div class="step done"><span class="step-number">✓</span> Verification</div><div class="step current"><span class="step-number">4</span> Review</div><div class="step"><span class="step-number">5</span> Complete</div></div>
+  {% if service %}
+    <div class="page-head"><div><p class="section-kicker">{{ service.category }}</p><h1>Review your {{ service.name }} request.</h1><p class="muted">Check the information below before submitting your request for municipal review.</p></div></div>
+    <div class="row g-4"><div class="col-lg-7"><div class="document-box"><p class="section-kicker">Submitted documents</p>{% for document in service.required_documents %}<div class="verify-line"><span>{{ document.name }}</span><strong class="verify-ok">Verified</strong></div>{% endfor %}</div></div><div class="col-lg-4 offset-lg-1"><div class="verification-box"><p class="section-kicker">Request summary</p><h3>{{ service.name }}</h3><div class="verify-line"><span>Issued by</span><strong>{{ service.issuing_authority }}</strong></div><div class="verify-line"><span>Documents</span><strong>{{ service.required_documents|length }} verified</strong></div><a class="btn btn-dark w-100 mt-4" href="{% url 'application_complete_service' service.slug %}">Submit for municipal review ↗</a></div></div></div>
+  {% else %}
+    <div class="form-panel"><p class="section-kicker">Review</p><h1>Select a service first.</h1><a class="btn btn-dark" href="{% url 'application_create_generic' %}">Choose a service ↗</a></div>
+  {% endif %}
+</div></section>
+{% endblock %}

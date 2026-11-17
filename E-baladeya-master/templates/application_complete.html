@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Request submitted | E-Baladiya{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">{% endblock %}
+{% block content %}
+<section class="app-shell"><div class="container">
+  <div class="stepper"><div class="step done"><span class="step-number">✓</span> Service</div><div class="step done"><span class="step-number">✓</span> Documents</div><div class="step done"><span class="step-number">✓</span> Verification</div><div class="step done"><span class="step-number">✓</span> Review</div><div class="step current"><span class="step-number">5</span> Complete</div></div>
+  {% if service %}
+    <div class="form-panel text-center"><p class="section-kicker">Request submitted</p><h1>Your {{ service.name }} request was submitted.</h1><p class="muted">Your documents were verified and the request has been sent to the municipal team for review.</p><div class="status pending mt-3">● Under municipal review</div><div class="mt-4"><a class="btn btn-dark" href="{% url 'dashboard' %}">Go to my dashboard ↗</a></div></div>
+  {% else %}
+    <div class="form-panel text-center"><p class="section-kicker">Request submitted</p><h1>Your request was submitted.</h1><a class="btn btn-dark mt-3" href="{% url 'dashboard' %}">Go to my dashboard ↗</a></div>
+  {% endif %}
+</div></section>
+{% endblock %}

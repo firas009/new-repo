@@ -1,0 +1,91 @@
+@startuml
+top to bottom direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam actorStyle awesome
+
+actor Citizen
+actor "Municipal Employee" as Employee
+
+rectangle "E-Baladiya" {
+  usecase "Browse municipal services" as UC_Browse
+  usecase "Search and filter services" as UC_Search
+  usecase "View service requirements" as UC_Requirements
+  usecase "Create account" as UC_Register
+  usecase "Log in" as UC_Login
+  usecase "Start a service request" as UC_Start
+  usecase "Upload supporting documents" as UC_Upload
+  usecase "Check document verification" as UC_Verify
+  usecase "Track request status" as UC_Track
+  usecase "Fix missing or invalid documents" as UC_Fix
+  usecase "Receive the administrative result" as UC_Result
+
+  usecase "View requests needing attention" as UC_Queue
+  usecase "Open an application" as UC_Open
+  usecase "Inspect citizen documents" as UC_Inspect
+  usecase "Review automatic verification" as UC_AutoReview
+  usecase "Request additional documents" as UC_RequestDocs
+  usecase "Approve an application" as UC_Approve
+  usecase "View service analytics" as UC_Analytics
+  usecase "Export an administrative report" as UC_Export
+
+  UC_Start .> UC_Requirements : <<include>>
+  UC_Start .> UC_Login : <<include>>
+  UC_Upload .> UC_Start : <<extend>>
+  UC_Verify .> UC_Upload : <<include>>
+  UC_Fix .> UC_Track : <<extend>>
+  UC_Result .> UC_Track : <<include>>
+
+  UC_Open .> UC_Queue : <<include>>
+  UC_Inspect .> UC_Open : <<include>>
+  UC_AutoReview .> UC_Open : <<include>>
+  UC_RequestDocs .> UC_Open : <<extend>>
+  UC_Approve .> UC_Open : <<extend>>
+  UC_Analytics .> UC_Login : <<include>>
+  UC_Export .> UC_Analytics : <<extend>>
+}
+
+Citizen --> UC_Browse
+Citizen --> UC_Search
+Citizen --> UC_Requirements
+Citizen --> UC_Register
+Citizen --> UC_Login
+Citizen --> UC_Start
+Citizen --> UC_Upload
+Citizen --> UC_Verify
+Citizen --> UC_Track
+Citizen --> UC_Fix
+Citizen --> UC_Result
+
+Employee --> UC_Login
+Employee --> UC_Queue
+Employee --> UC_Open
+Employee --> UC_Inspect
+Employee --> UC_AutoReview
+Employee --> UC_RequestDocs
+Employee --> UC_Approve
+Employee --> UC_Analytics
+Employee --> UC_Export
+
+UC_Browse -[hidden]left-> Citizen
+UC_Queue -[hidden]left-> Employee
+
+UC_Browse -[hidden]down-> UC_Search
+UC_Search -[hidden]down-> UC_Requirements
+UC_Requirements -[hidden]down-> UC_Register
+UC_Register -[hidden]down-> UC_Login
+UC_Login -[hidden]down-> UC_Start
+UC_Start -[hidden]down-> UC_Upload
+UC_Upload -[hidden]down-> UC_Verify
+UC_Verify -[hidden]down-> UC_Track
+UC_Track -[hidden]down-> UC_Fix
+UC_Fix -[hidden]down-> UC_Result
+UC_Result -[hidden]down-> UC_Queue
+UC_Queue -[hidden]down-> UC_Open
+UC_Open -[hidden]down-> UC_Inspect
+UC_Inspect -[hidden]down-> UC_AutoReview
+UC_AutoReview -[hidden]down-> UC_RequestDocs
+UC_RequestDocs -[hidden]down-> UC_Approve
+UC_Approve -[hidden]down-> UC_Analytics
+UC_Analytics -[hidden]down-> UC_Export
+@enduml

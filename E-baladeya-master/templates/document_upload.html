@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Upload documents | E-Baladiya{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/app-shell.css' %}">{% endblock %}
+{% block content %}
+<section class="app-shell"><div class="container">
+  {% if service %}
+    <div class="stepper"><div class="step done"><span class="step-number">✓</span> Service</div><div class="step current"><span class="step-number">2</span> Documents</div><div class="step"><span class="step-number">3</span> Verification</div><div class="step"><span class="step-number">4</span> Review</div><div class="step"><span class="step-number">5</span> Complete</div></div>
+    <div class="row g-4"><div class="col-lg-7"><p class="section-kicker">{{ service.category }}</p><h1>Upload documents for {{ service.name }}.</h1><p class="muted mb-4">Add all required documents. When you start verification, E-Baladiya will check them automatically before the municipal review.</p>{% for document in service.required_documents %}<div class="upload-zone mb-3"><div class="service-icon mx-auto">↑</div><strong>{{ document.name }}</strong><p>{{ document.description }}</p><small>Accepted file types: {{ document.accepted_file_types }}</small><br><button class="btn btn-outline-dark btn-sm mt-2" type="button">Choose file</button></div>{% endfor %}</div><div class="col-lg-4 offset-lg-1"><div class="document-box"><p class="section-kicker">Your checklist</p>{% for document in service.required_documents %}<div class="verify-line"><span>{{ document.name }}</span><span class="muted">Waiting</span></div>{% endfor %}<a class="btn btn-dark w-100 mt-4" href="{% url 'verification_result_service' service.slug %}">Start automatic verification ↗</a></div></div></div>
+  {% else %}
+    <div class="form-panel"><p class="section-kicker">Document upload</p><h1>Select a service first.</h1><p class="muted">Choose a municipal service so we can show the correct documents.</p><a class="btn btn-dark" href="{% url 'application_create_generic' %}">Choose a service ↗</a></div>
+  {% endif %}
+</div></section>
+{% endblock %}
